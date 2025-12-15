@@ -78,6 +78,11 @@ remove_server_block() {
     reload_nginx
 }
 
+show_server_blocks() {
+    echo "Current Nginx Server Blocks:"
+    ls -l /etc/nginx/sites-available/
+}
+
 reload_nginx() {
     echo "Reloading Nginx..."
     sudo systemctl reload nginx
