@@ -65,3 +65,21 @@ reload_nginx() {
     sudo systemctl reload nginx
     echo "Nginx reloaded."
 }
+
+while true
+do
+    echo "Nginx Management Menu"
+    echo "1) Install Nginx"
+    echo "2) Create Server Block"
+    echo "3) Help"
+    echo "4) Exit"
+    read -p "Choose an option: " choice
+
+    case $choice in
+        1) install_nginx ;;
+        2) create_server_block ;;
+        3) echo "This script helps you install and create Nginx server blocks." ;;
+        4) break ;;
+        *) echo "Invalid option." ;;
+    esac
+done
