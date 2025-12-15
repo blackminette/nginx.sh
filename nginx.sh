@@ -2,19 +2,19 @@
 
 install_nginx() {
     if [ -f /etc/nginx/nginx.conf ]; then
-        echo "Nginx is already installed."
-        echo "Starting and enabling Nginx service..."
+        echo -e "\e[32mNginx is already installed.\e[0m"
+        echo -e "\e[32mStarting and enabling Nginx service...\e[0m"
         sudo systemctl start nginx
         sudo systemctl enable nginx
-        echo "Nginx service started and enabled on boot."
+        echo -e "\e[32mNginx service started and enabled on boot.\e[0m"
     else
-        echo "Installing Nginx..."
+        echo -e "\e[32mInstalling Nginx...\e[0m"
         sudo apt update
         sudo apt install -y nginx
-        echo "Nginx installed successfully."
+        echo -e "\e[32mNginx installed successfully.\e[0m"
         sudo systemctl start nginx
         sudo systemctl enable nginx
-        echo "Nginx service started and enabled on boot."
+        echo -e "\e[32mNginx service started and enabled on boot.\e[0m"
     fi
 }
 
@@ -25,7 +25,7 @@ create_server_block() {
     sudo chown -R www-data:www-data /var/www/html/$site
     sudo chmod -R 755 /var/www/html/$site
 
-    echo "Creating Nginx block..."
+    echo -e "\e[32mCreating Nginx block...\e[0m"
 
     sudo tee /etc/nginx/sites-available/$site > /dev/null <<EOF
 server {
@@ -42,61 +42,61 @@ server {
 }
 EOF
 
-    echo "Enabling site..."
+    echo -e "\e[32mEnabling site...\e[0m"
     sudo ln -sf /etc/nginx/sites-available/$site /etc/nginx/sites-enabled/
-    echo "Site enabled."
+    echo -e "\e[32mSite enabled.\e[0m"
 
-    echo "Disabling default site..."
+    echo -e "\e[32mDisabling default site...\e[0m"
     sudo rm -f /etc/nginx/sites-enabled/default
-    echo "Default site disabled."
+    echo -e "\e[32mDefault site disabled.\e[0m"
 
-    echo "Testing Nginx configuration..."
+    echo -e "\e[32mTesting Nginx configuration...\e[0m"
     sudo nginx -t
-    echo "Nginx configuration is valid."
+    echo -e "\e[32mNginx configuration is valid.\e[0m"
 
     reload_nginx
 
-    echo "Server block for $site created successfully."
-    echo "Don't forget to add your content to /var/www/html/$site"
+    echo -e "\e[32mServer block for $site created successfully.\e[0m"
+    echo -e "\e[31mDon't forget to add your content to /var/www/html/$site\e[0m"
 }
 
 remove_server_block() {
     read -p "Enter the site domain to remove (e.g., example.com): " site
 
-    echo "Disabling site..."
+    echo -e "\e[32mDisabling site...\e[0m"
     sudo rm -f /etc/nginx/sites-enabled/$site
-    echo "Site disabled."
+    echo -e "\e[32mSite disabled.\e[0m"
 
-    echo "Removing server block configuration..."
+    echo -e "\e[32mRemoving server block configuration...\e[0m"
     sudo rm -f /etc/nginx/sites-available/$site
-    echo "Server block configuration removed."
+    echo -e "\e[32mServer block configuration removed.\e[0m"
 
-    echo "Testing Nginx configuration..."
+    echo -e "\e[32mTesting Nginx configuration...\e[0m"
     sudo nginx -t
-    echo "Nginx configuration is valid."
+    echo -e "\e[32mNginx configuration is valid.\e[0m"
 
     reload_nginx
 }
 
 show_server_blocks() {
-    echo "Current Nginx Server Blocks:"
+    echo -e "\e[32mCurrent Nginx Server Blocks:\e[0m"
     ls -l /etc/nginx/sites-available/
 }
 
 reload_nginx() {
-    echo "Reloading Nginx..."
+    echo -e "\e[32mReloading Nginx...\e[0m"
     sudo systemctl reload nginx
-    echo "Nginx reloaded."
+    echo -e "\e[32mNginx reloaded.\e[0m"
 }
 
 manage_menu() {
     while true
     do
-        echo "Manage Nginx Server Blocks"
-        echo "1) Create Server Block"
-        echo "2) Remove Server Block"
-        echo "3) Show Server Blocks:"
-        echo "4) Back to Main Menu"
+        echo -e "\e[32mManage Nginx Server Blocks\e[0m"
+        echo -e "\e[36m1) Create Server Block\e[0m"
+        echo -e "\e[36m2) Remove Server Block\e[0m"
+        echo -e "\e[36m3) Show Server Blocks:\e[0m"
+        echo -e "\e[36m4) Back to Main Menu\e[0m"
         read -p "Choose an option: " manage_choice
 
         case $manage_choice in
@@ -104,25 +104,25 @@ manage_menu() {
             2) remove_server_block ;;
             3) show_server_blocks ;;
             4) break ;;
-            *) echo "Invalid option." ;;
+            *) echo -e "\e[31mInvalid option.\e[0m" ;;
         esac
     done
 }
 
 while true
 do
-    echo "Nginx Management Menu"
-    echo "1) Install Nginx"
-    echo "2) Manage Server Blocks"
-    echo "3) Help"
-    echo "4) Exit"
+    echo -e "\e[32mNginx Management Menu\e[0m"
+    echo -e "\e[36m1) Install Nginx\e[0m"
+    echo -e "\e[36m2) Manage Server Blocks\e[0m"
+    echo -e "\e[36m3) Help\e[0m"
+    echo -e "\e[36m4) Exit\e[0m"
     read -p "Choose an option: " choice
 
     case $choice in
         1) install_nginx ;;
         2) manage_menu ;;
-        3) echo "This script helps you install and create Nginx server blocks." ;;
+        3) echo -e "\e[32mThis script helps you install and manage Nginx server blocks.\e[0m" ;;
         4) break ;;
-        *) echo "Invalid option." ;;
+        *) echo -e "\e[31mInvalid option.\e[0m" ;;
     esac
 done
