@@ -126,3 +126,5 @@ do
         *) echo -e "\e[31mInvalid option.\e[0m" ;;
     esac
 done
+
+echo -e "\e[33mExiting Nginx Management Script.\e[0m"
