@@ -60,6 +60,24 @@ EOF
     echo "Don't forget to add your content to /var/www/html/$site"
 }
 
+remove_server_block() {
+    read -p "Enter the site domain to remove (e.g., example.com): " site
+
+    echo "Disabling site..."
+    sudo rm -f /etc/nginx/sites-enabled/$site
+    echo "Site disabled."
+
+    echo "Removing server block configuration..."
+    sudo rm -f /etc/nginx/sites-available/$site
+    echo "Server block configuration removed."
+
+    echo "Testing Nginx configuration..."
+    sudo nginx -t
+    echo "Nginx configuration is valid."
+
+    reload_nginx
+}
+
 reload_nginx() {
     echo "Reloading Nginx..."
     sudo systemctl reload nginx
@@ -71,15 +89,17 @@ do
     echo "Nginx Management Menu"
     echo "1) Install Nginx"
     echo "2) Create Server Block"
-    echo "3) Help"
-    echo "4) Exit"
+    echo "3) Remove Server Block"
+    echo "4) Help"
+    echo "5) Exit"
     read -p "Choose an option: " choice
 
     case $choice in
         1) install_nginx ;;
         2) create_server_block ;;
-        3) echo "This script helps you install and create Nginx server blocks." ;;
-        4) break ;;
+        3) remove_server_block ;;
+        4) echo "This script helps you install and create Nginx server blocks." ;;
+        5) break ;;
         *) echo "Invalid option." ;;
     esac
 done
