@@ -89,22 +89,40 @@ reload_nginx() {
     echo "Nginx reloaded."
 }
 
+manage_menu() {
+    while true
+    do
+        echo "Manage Nginx Server Blocks"
+        echo "1) Create Server Block"
+        echo "2) Remove Server Block"
+        echo "3) Show Server Blocks:"
+        echo "4) Back to Main Menu"
+        read -p "Choose an option: " manage_choice
+
+        case $manage_choice in
+            1) create_server_block ;;
+            2) remove_server_block ;;
+            3) show_server_blocks ;;
+            4) break ;;
+            *) echo "Invalid option." ;;
+        esac
+    done
+}
+
 while true
 do
     echo "Nginx Management Menu"
     echo "1) Install Nginx"
-    echo "2) Create Server Block"
-    echo "3) Remove Server Block"
-    echo "4) Help"
-    echo "5) Exit"
+    echo "2) Manage Server Blocks"
+    echo "3) Help"
+    echo "4) Exit"
     read -p "Choose an option: " choice
 
     case $choice in
         1) install_nginx ;;
-        2) create_server_block ;;
-        3) remove_server_block ;;
-        4) echo "This script helps you install and create Nginx server blocks." ;;
-        5) break ;;
+        2) manage_menu ;;
+        3) echo "This script helps you install and create Nginx server blocks." ;;
+        4) break ;;
         *) echo "Invalid option." ;;
     esac
 done
