@@ -23,7 +23,48 @@ Dans le cadre de ce projet, j’ai également **tenté de créer un second scrip
 
 ## Usage
 
-1. Rendre le script exécutable :
+### Lancer le script principal
+
+Rendre le script exécutable :
+
+```bash
+chmod +x nginx.sh
+```
+
+Lancer le script :
+
+```bash
+./nginx.sh
+```
+
+Un menu interactif s’affiche et permet de :
+- Installer Nginx
+- Créer un server block (virtual host)
+- Supprimer un server block
+- Afficher les server blocks existants
+
+### Exemple d’utilisation
+
+Créer un server block pour un site :
+- Choisir l’option **Manage Server Blocks**
+- Puis **Create Server Block**
+- Entrer un nom de domaine (ex: `example.com`)
+
+Les fichiers seront créés dans :
+
+```bash
+/var/www/html/example.com
+```
+
+## Auteur
+
+**Nicolas Vella**  
+LinkedIn : https://www.linkedin.com/in/nicolas-vella-17665a32a/
+
+## Notes
+
+- Ce projet est **à usage pédagogique / TP**.
+- Le second script ASCII art reste expérimental et n’est pas fonctionnel pour le moment. exécutable :
 
 ```bash
 chmod +x nginx.sh
